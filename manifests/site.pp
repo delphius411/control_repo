@@ -8,5 +8,7 @@ node 'client1.lab.net' {
 }
 
 node 'netsvcs.lab.net' {
-  
+  file {'/root/README':
+    ensure => file,
+    }
 }
