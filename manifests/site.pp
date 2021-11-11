@@ -9,7 +9,7 @@ node 'netsvcs.lab.net' {
   
   file {'/root/README':
     ensure  => file,
-    content => $fqdn,
+    content => "Welcome to ${fqdn}",
     owner   => 'root',
     }
 }
