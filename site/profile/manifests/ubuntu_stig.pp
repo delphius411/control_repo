@@ -1,4 +1,4 @@
-class profile::base {
+class profile::ubuntu_stig {
     user {'admin': 
     ensure => present 
     }
