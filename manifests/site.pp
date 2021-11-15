@@ -15,5 +15,5 @@ node 'netsvcs.lab.net' {
 }
 
 node 'ubuntustig.lab.net' {
-  include role::server_stig
+  include role::ubuntu_secure_server
 }
