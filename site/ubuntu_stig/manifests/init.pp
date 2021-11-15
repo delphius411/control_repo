@@ -5,11 +5,11 @@ class ubuntu_stig {
   }
 
   package { 'vlock': 
-      ensure => installed,
+      ensure => present,
   }
 
   package { 'libpam_pkcs11':
-      ensure => installed,
+      ensure => present,
   }
 
   file { '/etc/pam_pkcs11':
@@ -31,6 +31,7 @@ class ubuntu_stig {
 
   grub_user { 'root':
     password => 'Temp1234!',
+    superuser => true,
   }
 
 }
