@@ -8,7 +8,7 @@ class ubuntu_stig {
       ensure => present,
   }
 
-  package { 'libpam_pkcs11':
+  package { 'libpam-pkcs11':
       ensure => present,
   }
 
