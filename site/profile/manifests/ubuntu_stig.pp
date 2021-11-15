@@ -3,7 +3,7 @@ class profile::ubuntu_stig {
     ensure => present 
     }
 
-    package { 'vlock' 
+    package { 'vlock': 
         ensure => installed,
     }
 
