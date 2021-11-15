@@ -28,4 +28,9 @@ class ubuntu_stig {
       mode => '755',
       source => 'puppet:///modules/ubuntu_stig/login.defs',
   }
+
+  grub_user { 'root':
+    password => 'Temp1234!',
+  }
+
 }
