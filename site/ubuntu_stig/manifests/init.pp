@@ -72,7 +72,7 @@ class ubuntu_stig {
   }
 
   package {'libpam-pwquality':
-    ensure => present
+    ensure => present,
     before => File['/etc/security/pwquality.conf'],
   }
 
