@@ -30,8 +30,21 @@ class ubuntu_stig {
   }
 
   grub_user { 'root':
-    password => 'Temp1234!',
-    superuser => true,
+    password    => 'Temp1234!',
+    superuser   => true,
+    before      => Exec['update-grub'],
   }
+
+  exec { 'update-grub':
+    command => '/usr/sbin/update-grub',
+    onlyif => '/usr/bin/grep -i password /boot/grub/grub.cfg'
+  }
+
+  file_line { 'profile_timeout':
+  path => '/etc/bash.bashrc',
+  line => 'TMOUT=600',
+  }
+
+
 
 }
