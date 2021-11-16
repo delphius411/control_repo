@@ -41,8 +41,8 @@ class ubuntu_stig {
   }
 
   file_line { 'profile_timeout':
-  path => '/etc/bash.bashrc',
-  line => 'TMOUT=600',
+    path => '/etc/bash.bashrc',
+    line => 'TMOUT=600',
   }
 
 
