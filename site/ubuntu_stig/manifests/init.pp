@@ -83,7 +83,7 @@ class ubuntu_stig {
   }
 
   package {'opensc-pkcs11':
-    ensure => present
+    ensure => present,
   }
 
   file { '/etc/pam.d/common-password':
@@ -96,6 +96,10 @@ class ubuntu_stig {
       ensure  => file,
       mode    => '755',
       source => 'puppet:///modules/ubuntu_stig/faillock.conf',
+  }
+
+  package {'aide':
+    ensure => present,
   }
 
 }
