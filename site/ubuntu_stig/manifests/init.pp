@@ -21,6 +21,10 @@ class ubuntu_stig {
       ensure => present,
   }
 
+  package { 'auditd': 
+    ensure => present,
+  }
+
   file { '/etc/pam_pkcs11':
       ensure => directory,
       mode => '755',
@@ -100,6 +104,12 @@ class ubuntu_stig {
 
   package {'aide':
     ensure => present,
+  }
+
+  file { '/etc/audit/rules.d/stig.rules':
+      ensure => file,
+      mode => '755',
+      source => 'puppet:///modules/ubuntu_stig/stig_audit.rules',
   }
 
 }

@@ -1,0 +1,16 @@
+## V-238238
+-w /etc/passwd -p wa -k usergroup_modification 
+
+## V-238239
+-w /etc/group -p wa -k usergroup_modification 
+
+## V-238240
+-w /etc/shadow -p wa -k usergroup_modification 
+
+## V-238241
+-w /etc/gshadow -p wa -k usergroup_modification 
+
+## V-238242
+-w /etc/security/opasswd -p wa -k usergroup_modification
+
+## V-
