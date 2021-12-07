@@ -2,7 +2,7 @@ class rhel8_stig {
 #   # run exec only if command in onlyif returns 0.
   exec { 'verify_fips_mode':
     command => 'fips-mode-setup --enable',
-    onlyif  => 'grep 0 /proc/sys/crypto/fips_enabled',
+    onlyif  => '/bin/grep 0 /proc/sys/crypto/fips_enabled',
   }
 
   package { 'vlock':
@@ -197,7 +197,7 @@ file { '/var/log/audit/audit.log':
 
 #   #exec { 'update-grub':
 #   #  command => '/usr/sbin/update-grub',
-#   #  onlyif => '/usr/bin/grep -i password /boot/grub/grub.cfg'
+#   #  onlyif => '/bin/grep -i password /boot/grub/grub.cfg'
 #   #}
 
 #   file_line { 'secure_rescue_mode':
