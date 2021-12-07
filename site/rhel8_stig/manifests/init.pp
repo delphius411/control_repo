@@ -52,14 +52,14 @@ class rhel8_stig {
       ensure => present,
   }
 
-  package { 'ssh':
+  package { 'openssh-server':
     ensure => present,
   }
 
-  service { 'ssh':
+  service { 'sshd':
     ensure  => running,
     enable  => true,
-    require => Package['ssh'],
+    require => Package['openssh-server'],
   }
 
   package { 'rsyslog':
@@ -87,7 +87,7 @@ package { 'policycoreutils':
       ensure => present,
   }
 
-  package { 'auditd':
+  package { 'audit':
     ensure => present,
   }
 
