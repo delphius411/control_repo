@@ -200,34 +200,34 @@ file { '/var/log/audit/audit.log':
 #   #  onlyif => '/bin/grep -i password /boot/grub/grub.cfg'
 #   #}
 
-#   file_line { 'secure_rescue_mode':
-#     path  => '/usr/lib/systemd/system/rescue.service',
-#     line  => 'ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue',
-#     match => '^ExecStart=',
-#   }
+  file_line { 'secure_rescue_mode':
+    path  => '/usr/lib/systemd/system/rescue.service',
+    line  => 'ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue',
+    match => '^ExecStart=',
+  }
 
-#   file_line { 'selinux_mode':
-#     path  => '/etc/selinux/config',
-#     line  => 'SELINUX=enforcing',
-#     match => '^SELINUX=',
-#   }
+  file_line { 'selinux_mode':
+    path  => '/etc/selinux/config',
+    line  => 'SELINUX=enforcing',
+    match => '^SELINUX=',
+  }
 
-#   file_line { 'selinux_type':
-#     path  => '/etc/selinux/config',
-#     line  => 'SELINUXTYPE=targeted',
-#     match => '^SELINUXTYPE=',
-#   }
+  file_line { 'selinux_type':
+    path  => '/etc/selinux/config',
+    line  => 'SELINUXTYPE=targeted',
+    match => '^SELINUXTYPE=',
+  }
 
-#   file_line { 'tls_min_level':
-#     path  => '//etc/crypto-policies/back-ends/opensslcnf.config',
-#     line  => 'TLS.MinProtocol = TLSv1.2',
-#     match => '^TLS.MinProtocol',
-#   }
+  file_line { 'tls_min_level':
+    path  => '//etc/crypto-policies/back-ends/opensslcnf.config',
+    line  => 'TLS.MinProtocol = TLSv1.2',
+    match => '^TLS.MinProtocol',
+  }
 
-#   file_line { 'profile_timeout':
-#     path => '/etc/bash.bashrc',
-#     line => 'TMOUT=600',
-#   }
+  file_line { 'profile_timeout':
+    path => '/etc/bash.bashrc',
+    line => 'TMOUT=600',
+  }
 
 #   file_line { 'sssd_ocsp_dgst':
 #     path  => '/etc/sssd/sssd.conf',
@@ -235,47 +235,47 @@ file { '/var/log/audit/audit.log':
 #     match => '^certificate_verification',
 #   }
 
-#   file_line { 'ssh_strong_rng':
-#     path  => '/etc/sysconfig/sshd',
-#     line  => 'SSH_USE_STRONG_RNG=32',
-#     match => '^SSH_USE_STRONG_RNG=',
-#   }
+  file_line { 'ssh_strong_rng':
+    path  => '/etc/sysconfig/sshd',
+    line  => 'SSH_USE_STRONG_RNG=32',
+    match => '^SSH_USE_STRONG_RNG=',
+  }
 
-# file_line { 'dnf_local_pkg_gpgcheck':
-#     path  => '/etc/dnf/dnf.conf',
-#     line  => 'localpkg_gpgcheck=True',
-#     match => '^localpkg_gpgcheck=',
-#   }
+file_line { 'dnf_local_pkg_gpgcheck':
+    path  => '/etc/dnf/dnf.conf',
+    line  => 'localpkg_gpgcheck=True',
+    match => '^localpkg_gpgcheck=',
+  }
 
-# file_line { 'dnf_clean_old_pkgs':
-#     path  => '/etc/dnf/dnf.conf',
-#     line  => 'clean_requirements_on_remove=True',
-#     match => '^clean_requirements_on_remove',
-#   }
+file_line { 'dnf_clean_old_pkgs':
+    path  => '/etc/dnf/dnf.conf',
+    line  => 'clean_requirements_on_remove=True',
+    match => '^clean_requirements_on_remove',
+  }
 
-# file_line { 'inactive_35_days_useradd':
-#     path  => '/etc/default/useradd',
-#     line  => 'INACTIVE=35',
-#     match => '^INACTIVE',
-#   }
+file_line { 'inactive_35_days_useradd':
+    path  => '/etc/default/useradd',
+    line  => 'INACTIVE=35',
+    match => '^INACTIVE',
+  }
 
-#   file_line { 'disable_core_dumps':
-#     path  => '/etc/systemd/coredump.conf',
-#     line  => 'Storage=none',
-#     match => 'Storage=none',
-#   }
+  file_line { 'disable_core_dumps':
+    path  => '/etc/systemd/coredump.conf',
+    line  => 'Storage=none',
+    match => 'Storage=none',
+  }
 
-#   file_line { 'disable_dump_backtrace':
-#     path  => '/etc/systemd/coredump.conf',
-#     line  => 'ProcessSizeMax=0',
-#     match => 'ProcessSizeMax=',
-#   }
+  file_line { 'disable_dump_backtrace':
+    path  => '/etc/systemd/coredump.conf',
+    line  => 'ProcessSizeMax=0',
+    match => 'ProcessSizeMax=',
+  }
 
-#   file { '/etc/pam.d/postlogin':
-#         ensure => file,
-#         mode   => '0644',
-#         source => 'puppet:///modules/rhel8_stig/postlogin',
-#   }
+  file { '/etc/pam.d/postlogin':
+        ensure => file,
+        mode   => '0644',
+        source => 'puppet:///modules/rhel8_stig/postlogin',
+  }
 
   file { '/etc/issue.net':
         ensure => file,
@@ -326,4 +326,12 @@ file { '/var/log/audit/audit.log':
     owner  => 'root',
     group  => 'root',
   }
+
+  file { lookup('audit_files_750', Array):
+      ensure => file,
+      mode   => '0755',
+      owner  => 'root',
+      group  => 'root',
+    }
+
 }

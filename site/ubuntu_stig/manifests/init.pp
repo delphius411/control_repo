@@ -1,10 +1,10 @@
 class ubuntu_stig {
 
-  user {'admin': 
-  ensure => present 
+  user {'admin':
+  ensure => present
   }
 
-  package { 'vlock': 
+  package { 'vlock':
       ensure => present,
   }
 
@@ -21,42 +21,42 @@ class ubuntu_stig {
       ensure => present,
   }
 
-  package { 'auditd': 
+  package { 'auditd':
     ensure => present,
   }
 
   file { '/etc/pam_pkcs11':
       ensure => directory,
-      mode => '755',
+      mode   => '0755',
   }
 
   file { '/etc/pam_pkcs11/pam_pkcs11.conf':
-      ensure  => file,
-      mode    => '755',
+      ensure => file,
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/login.defs',
   }
 
   file { '/etc/ssh/sshd_config':
       ensure => file,
-      mode => '755',
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/sshd_config',
   }
 
   file { '/etc/login.defs':
       ensure => file,
-      mode => '755',
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/login.defs',
   }
 
   grub_user { 'root':
-    password    => 'Temp1234!',
-    superuser   => true,
-    before      => Exec['update-grub'],
+    password  => 'Temp1234!',
+    superuser => true,
+    before    => Exec['update-grub'],
   }
 
   exec { 'update-grub':
     command => '/usr/sbin/update-grub',
-    onlyif => '/usr/bin/grep -i password /boot/grub/grub.cfg'
+    onlyif  => '/usr/bin/grep -i password /boot/grub/grub.cfg'
   }
 
   file_line { 'profile_timeout':
@@ -71,7 +71,7 @@ class ubuntu_stig {
 
   file { '/etc/issue.net':
         ensure => file,
-        mode => '755',
+        mode   => '0755',
         source => 'puppet:///modules/ubuntu_stig/issue.net',
   }
 
@@ -81,8 +81,8 @@ class ubuntu_stig {
   }
 
   file { '/etc/security/pwquality.conf':
-      ensure  => file,
-      mode    => '755',
+      ensure => file,
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/pwquality.conf',
   }
 
@@ -91,14 +91,14 @@ class ubuntu_stig {
   }
 
   file { '/etc/pam.d/common-password':
-      ensure  => file,
-      mode    => '755',
+      ensure => file,
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/common-password',
   }
 
   file { '/etc/security/faillock.conf':
-      ensure  => file,
-      mode    => '755',
+      ensure => file,
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/faillock.conf',
   }
 
@@ -108,7 +108,7 @@ class ubuntu_stig {
 
   file { '/etc/audit/rules.d/stig.rules':
       ensure => file,
-      mode => '755',
+      mode   => '0755',
       source => 'puppet:///modules/ubuntu_stig/stig_audit.rules',
   }
 
