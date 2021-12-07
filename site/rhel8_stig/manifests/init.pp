@@ -5,66 +5,66 @@ class rhel8_stig {
 #     onlyif  => 'grep 0 /proc/sys/crypto/fips_enabled',
 #   }
 
-#   package { 'vlock':
-#       ensure => present,
-#   }
+  package { 'vlock':
+      ensure => present,
+  }
 
 
-#   package { 'tmux':
-#       ensure => present,
-#   }
+  package { 'tmux':
+      ensure => present,
+  }
 
-#   file { 'tmux_config':
-#     path    => '/etc/tmux.conf',
-#     mode    => '0644',
-#     source  => 'puppet:///modules/rhel8_stig/tmux.conf',
-#     require => Package['tmux'],
-#   }
+  file { 'tmux_config':
+    path    => '/etc/tmux.conf',
+    mode    => '0644',
+    source  => 'puppet:///modules/rhel8_stig/tmux.conf',
+    require => Package['tmux'],
+  }
 
-#   file_line { 'fix_tmux_entry':
-#     ensure            => absent,
-#     path              => '/etc/shells',
-#     match             => '^.*tmux$',
-#     match_for_absence => true,
-#     multiple          => true,
-#   }
+  file_line { 'fix_tmux_entry':
+    ensure            => absent,
+    path              => '/etc/shells',
+    match             => '^.*tmux$',
+    match_for_absence => true,
+    multiple          => true,
+  }
 
-#   package { 'vim':
-#       ensure => present,
-#   }
+  package { 'vim':
+      ensure => present,
+  }
 
-#   package { 'rng-tools':
-#       ensure => present,
-#   }
+  package { 'rng-tools':
+      ensure => present,
+  }
 
-#   service { 'rngd':
-#     ensure  => running,
-#     enable  => true,
-#     require => Package['rng-tools'],
-#   }
+  service { 'rngd':
+    ensure  => running,
+    enable  => true,
+    require => Package['rng-tools'],
+  }
 
-#   service { 'systemd-coredump.socket':
-#     ensure => stopped,
-#     enable => mask,
-#   }
+  service { 'systemd-coredump.socket':
+    ensure => stopped,
+    enable => mask,
+  }
 
-#   package { 'opensc':
-#       ensure => present,
-#   }
+  package { 'opensc':
+      ensure => present,
+  }
 
-#   package { 'ssh':
-#     ensure => present,
-#   }
+  package { 'ssh':
+    ensure => present,
+  }
 
-#   service { 'ssh':
-#     ensure  => running,
-#     enable  => true,
-#     require => Package['ssh'],
-#   }
+  service { 'ssh':
+    ensure  => running,
+    enable  => true,
+    require => Package['ssh'],
+  }
 
-#   package { 'rsyslog':
-#     ensure => present,
-#   }
+  package { 'rsyslog':
+    ensure => present,
+  }
 
 #   service { 'rsyslog':
 #     ensure  => running,
@@ -79,32 +79,35 @@ class rhel8_stig {
 #       require => Package['rsyslog'],
 #   }
 
-#   package { 'openssl-pkcs11':
-#       ensure => present,
-#   }
+  package { 'openssl-pkcs11':
+      ensure => present,
+  }
 
-# package { 'policycoreutils':
-#       ensure => present,
-#   }
+package { 'policycoreutils':
+      ensure => present,
+  }
 
-#   package { 'auditd':
-#     ensure => present,
-#   }
+  package { 'auditd':
+    ensure => present,
+  }
 
-#   service { 'auditd':
-#     ensure => running,
-#     enable => true,
-#   }
+  service { 'auditd':
+    ensure => running,
+    enable => true,
+  }
 
 #   file { '/etc/pam_pkcs11':
-#       ensure => directory,
-#       mode   => '0755',
+#       ensure  => directory,
+#       mode    => '0755',
+#       require => 'Package[openssl-pkcs11'],
 #   }
 
 #   file { '/etc/pam_pkcs11/pam_pkcs11.conf':
 #       ensure => file,
 #       mode   => '0644',
 #       source => 'puppet:///modules/rhel8_stig/login.defs',
+#       require => 'Package[openssl-pkcs11'],
+
 #   }
 
 #   file { '/etc/ssh/sshd_config':
@@ -119,11 +122,11 @@ class rhel8_stig {
 #       source => 'puppet:///modules/rhel8_stig/password-auth',
 #   }
 
-#   file { '/etc/issue':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/issue',
-#   }
+  file { '/etc/issue':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/issue',
+  }
 
 #   file { '/etc/login.defs':
 #       ensure => file,
@@ -137,33 +140,33 @@ class rhel8_stig {
 #       source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
 #   }
 
-#   file { '/var/log/messages':
-#     ensure => file,
-#     mode   => '0640',
-#     owner  => 'root',
-#     group  => 'root',
-#   }
+  file { '/var/log/messages':
+    ensure => file,
+    mode   => '0640',
+    owner  => 'root',
+    group  => 'root',
+  }
 
-#   file { '/var/log':
-#   ensure => directory,
-#   mode   => '0755',
-#   owner  => 'root',
-#   group  => 'root',
-# }
+  file { '/var/log':
+  ensure => directory,
+  mode   => '0755',
+  owner  => 'root',
+  group  => 'root',
+}
 
-# file { '/var/log/audit/audit.log':
-#     ensure => file,
-#     mode   => '0600',
-#     owner  => 'root',
-#     group  => 'root',
-#   }
+file { '/var/log/audit/audit.log':
+    ensure => file,
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+  }
 
-#   file { '/var/log/audit':
-#     ensure => directory,
-#     mode   => '0700',
-#     owner  => 'root',
-#     group  => 'root',
-#   }
+  file { '/var/log/audit':
+    ensure => directory,
+    mode   => '0700',
+    owner  => 'root',
+    group  => 'root',
+  }
 
 #   file { '/etc/audit/auditd.conf':
 #     ensure => file,
@@ -265,7 +268,7 @@ class rhel8_stig {
 #   file_line { 'disable_dump_backtrace':
 #     path  => '/etc/systemd/coredump.conf',
 #     line  => 'ProcessSizeMax=0',
-#     match => 'ProcessSizeMax=0',
+#     match => 'ProcessSizeMax=',
 #   }
 
 #   file { '/etc/pam.d/postlogin':
@@ -274,11 +277,11 @@ class rhel8_stig {
 #         source => 'puppet:///modules/rhel8_stig/postlogin',
 #   }
 
-#   file { '/etc/issue.net':
-#         ensure => file,
-#         mode   => '0644',
-#         source => 'puppet:///modules/rhel8_stig/issue.net',
-#   }
+  file { '/etc/issue.net':
+        ensure => file,
+        mode   => '0644',
+        source => 'puppet:///modules/rhel8_stig/issue.net',
+  }
 
 #   package {'libpam-pwquality':
 #     ensure => present,
@@ -307,9 +310,9 @@ class rhel8_stig {
 #       source => 'puppet:///modules/rhel8_stig/faillock.conf',
 #   }
 
-#   package {'aide':
-#     ensure => present,
-#   }
+  package {'aide':
+    ensure => present,
+  }
 
 #   file { '/etc/audit/rules.d/stig.rules':
 #       ensure => file,
