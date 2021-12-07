@@ -1,9 +1,9 @@
 class rhel8_stig {
 #   # run exec only if command in onlyif returns 0.
-#   exec { 'verify_fips_mode':
-#     command => 'fips-mode-setup --enable',
-#     onlyif  => 'grep 0 /proc/sys/crypto/fips_enabled',
-#   }
+  exec { 'verify_fips_mode':
+    command => 'fips-mode-setup --enable',
+    onlyif  => 'grep 0 /proc/sys/crypto/fips_enabled',
+  }
 
   package { 'vlock':
       ensure => present,
@@ -66,18 +66,18 @@ class rhel8_stig {
     ensure => present,
   }
 
-#   service { 'rsyslog':
-#     ensure  => running,
-#     enable  => true,
-#     require => Package['rsyslog'],
-#   }
+  service { 'rsyslog':
+    ensure  => running,
+    enable  => true,
+    require => Package['rsyslog'],
+  }
 
-# file { '/etc/rsyslog.conf':
-#       ensure  => file,
-#       mode    => '0644',
-#       source  => 'puppet:///modules/rhel8_stig/rsyslog.conf',
-#       require => Package['rsyslog'],
-#   }
+file { '/etc/rsyslog.conf':
+      ensure  => file,
+      mode    => '0644',
+      source  => 'puppet:///modules/rhel8_stig/rsyslog.conf',
+      require => Package['rsyslog'],
+  }
 
   package { 'openssl-pkcs11':
       ensure => present,
@@ -110,17 +110,17 @@ package { 'policycoreutils':
 
 #   }
 
-#   file { '/etc/ssh/sshd_config':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/sshd_config',
-#   }
+  file { '/etc/ssh/sshd_config':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/sshd_config',
+  }
 
-#   file { '/etc/pam.d/password-auth':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/password-auth',
-#   }
+  file { '/etc/pam.d/password-auth':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/password-auth',
+  }
 
   file { '/etc/issue':
       ensure => file,
@@ -128,17 +128,17 @@ package { 'policycoreutils':
       source => 'puppet:///modules/rhel8_stig/issue',
   }
 
-#   file { '/etc/login.defs':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/login.defs',
-#   }
+  file { '/etc/login.defs':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/login.defs',
+  }
 
-#   file { '/usr/share/crypto-policies/DEFAULT/opensshserver.txt':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
-#   }
+  file { '/usr/share/crypto-policies/DEFAULT/opensshserver.txt':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
+  }
 
   file { '/var/log/messages':
     ensure => file,
@@ -168,25 +168,25 @@ file { '/var/log/audit/audit.log':
     group  => 'root',
   }
 
-#   file { '/etc/audit/auditd.conf':
-#     ensure => file,
-#     mode   => '0640',
-#     owner  => 'root',
-#     group  => 'root',
-#   }
+  file { '/etc/audit/auditd.conf':
+    ensure => file,
+    mode   => '0640',
+    owner  => 'root',
+    group  => 'root',
+  }
 
 
-#   file { '/etc/security/limits.conf':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/limits.conf',
-#   }
+  file { '/etc/security/limits.conf':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/limits.conf',
+  }
 
-#   file { '/etc/security/faillock.conf':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/faillock.conf',
-#   }
+  file { '/etc/security/faillock.conf':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/faillock.conf',
+  }
 
 
 #   #grub_user { 'root':
