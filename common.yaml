@@ -1,0 +1,11 @@
+---
+ stigSettings::audit-files-755:
+    - "/sbin/auditctl"
+    - "/sbin/aureport"
+    - "/sbin/ausearch"
+    - "/sbin/auditd"
+    - "/sbin/rsyslogd"
+    - "/sbin/augenrules"
+
+  stigSettings::audit-files-750:
+    - "/sbin/autrace"

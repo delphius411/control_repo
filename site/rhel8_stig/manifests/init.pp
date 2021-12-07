@@ -1,27 +1,45 @@
 class rhel8_stig {
-
-  
   # run exec only if command in onlyif returns 0.
   exec { 'verify_fips_mode':
     command => 'fips-mode-setup --enable',
     onlyif  => 'grep 0 /proc/sys/crypto/fips_enabled',
   }
 
-  package { 'vlock': 
+  package { 'vlock':
       ensure => present,
   }
 
-  package { 'vim': 
+
+  package { 'tmux':
       ensure => present,
   }
 
-  package { 'rng-tools': 
+  file { 'tmux_config':
+    path    => '/etc/tmux.conf',
+    mode    => '0644',
+    source  => 'puppet:///modules/rhel8_stig/tmux.conf',
+    require => Package['tmux'],
+  }
+
+  file_line { 'fix_tmux_entry':
+    ensure            => absent,
+    path              => '/etc/shells',
+    match             => '^.*tmux$',
+    match_for_absence => true,
+    multiple          => true,
+  }
+
+  package { 'vim':
+      ensure => present,
+  }
+
+  package { 'rng-tools':
       ensure => present,
   }
 
   service { 'rngd':
-    ensure => running,
-    enable => true,
+    ensure  => running,
+    enable  => true,
     require => Package['rng-tools'],
   }
 
@@ -30,7 +48,7 @@ class rhel8_stig {
     enable => mask,
   }
 
-  package { 'opensc': 
+  package { 'opensc':
       ensure => present,
   }
 
@@ -39,8 +57,8 @@ class rhel8_stig {
   }
 
   service { 'ssh':
-    ensure => running,
-    enable => true,
+    ensure  => running,
+    enable  => true,
     require => Package['ssh'],
   }
 
@@ -49,15 +67,15 @@ class rhel8_stig {
   }
 
   service { 'rsyslog':
-    ensure => running,
-    enable => true,
+    ensure  => running,
+    enable  => true,
     require => Package['rsyslog'],
   }
 
 file { '/etc/rsyslog.conf':
       ensure  => file,
-      mode    => '644',
-      source => 'puppet:///modules/rhel8_stig/rsyslog.conf',
+      mode    => '0644',
+      source  => 'puppet:///modules/rhel8_stig/rsyslog.conf',
       require => Package['rsyslog'],
   }
 
@@ -69,7 +87,7 @@ package { 'policycoreutils':
       ensure => present,
   }
 
-  package { 'auditd': 
+  package { 'auditd':
     ensure => present,
   }
 
@@ -80,63 +98,91 @@ package { 'policycoreutils':
 
   file { '/etc/pam_pkcs11':
       ensure => directory,
-      mode => '755',
+      mode   => '0755',
   }
 
   file { '/etc/pam_pkcs11/pam_pkcs11.conf':
-      ensure  => file,
-      mode    => '644',
+      ensure => file,
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/login.defs',
   }
 
   file { '/etc/ssh/sshd_config':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/sshd_config',
   }
 
   file { '/etc/pam.d/password-auth':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/password-auth',
   }
 
-   file { '/etc/issue':
+  file { '/etc/issue':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/issue',
   }
 
   file { '/etc/login.defs':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/login.defs',
   }
 
   file { '/usr/share/crypto-policies/DEFAULT/opensshserver.txt':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
   }
 
-  file { '/var/log/messages': 
+  file { '/var/log/messages':
     ensure => file,
-    mode => '640',
-    owner => 'root',
-    group => 'root',
+    mode   => '0640',
+    owner  => 'root',
+    group  => 'root',
   }
 
-file { '/var/log':
+  file { '/var/log':
   ensure => directory,
-  mode => '755',
-  owner => 'root',
-  group => 'root',
+  mode   => '0755',
+  owner  => 'root',
+  group  => 'root',
 }
 
- file { '/etc/security/limits.conf':
+file { '/var/log/audit/audit.log':
+    ensure => file,
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+  }
+
+  file { '/var/log/audit':
+    ensure => directory,
+    mode   => '0700',
+    owner  => 'root',
+    group  => 'root',
+  }
+
+  file { '/etc/audit/auditd.conf':
+    ensure => file,
+    mode   => '0640',
+    owner  => 'root',
+    group  => 'root',
+  }
+
+
+  file { '/etc/security/limits.conf':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/limits.conf',
+  }
+
+  file { '/etc/security/faillock.conf':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/faillock.conf',
   }
 
 
@@ -152,26 +198,26 @@ file { '/var/log':
   #}
 
   file_line { 'secure_rescue_mode':
-    path => '/usr/lib/systemd/system/rescue.service',
-    line => 'ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue',
+    path  => '/usr/lib/systemd/system/rescue.service',
+    line  => 'ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue',
     match => '^ExecStart=',
   }
 
-file_line { 'selinux_mode':
-    path => '/etc/selinux/config',
-    line => 'SELINUX=enforcing',
+  file_line { 'selinux_mode':
+    path  => '/etc/selinux/config',
+    line  => 'SELINUX=enforcing',
     match => '^SELINUX=',
   }
 
   file_line { 'selinux_type':
-    path => '/etc/selinux/config',
-    line => 'SELINUXTYPE=targeted',
+    path  => '/etc/selinux/config',
+    line  => 'SELINUXTYPE=targeted',
     match => '^SELINUXTYPE=',
   }
 
   file_line { 'tls_min_level':
-    path => '//etc/crypto-policies/back-ends/opensslcnf.config',
-    line => 'TLS.MinProtocol = TLSv1.2',
+    path  => '//etc/crypto-policies/back-ends/opensslcnf.config',
+    line  => 'TLS.MinProtocol = TLSv1.2',
     match => '^TLS.MinProtocol',
   }
 
@@ -180,39 +226,57 @@ file_line { 'selinux_mode':
     line => 'TMOUT=600',
   }
 
-file_line { 'sssd_ocsp_dgst':
-    path => '/etc/sssd/sssd.conf',
-    line => 'certificate_verification = ocsp_dgst=sha1',
+  file_line { 'sssd_ocsp_dgst':
+    path  => '/etc/sssd/sssd.conf',
+    line  => 'certificate_verification = ocsp_dgst=sha1',
     match => '^certificate_verification',
-  }  
+  }
 
-file_line { 'ssh_strong_rng':
-    path => '/etc/sysconfig/sshd',
-    line => 'SSH_USE_STRONG_RNG=32',
+  file_line { 'ssh_strong_rng':
+    path  => '/etc/sysconfig/sshd',
+    line  => 'SSH_USE_STRONG_RNG=32',
     match => '^SSH_USE_STRONG_RNG=',
   }
 
 file_line { 'dnf_local_pkg_gpgcheck':
-    path => '/etc/dnf/dnf.conf',
-    line => 'localpkg_gpgcheck=True',
+    path  => '/etc/dnf/dnf.conf',
+    line  => 'localpkg_gpgcheck=True',
     match => '^localpkg_gpgcheck=',
   }
 
 file_line { 'dnf_clean_old_pkgs':
-    path => '/etc/dnf/dnf.conf',
-    line => 'clean_requirements_on_remove=True',
+    path  => '/etc/dnf/dnf.conf',
+    line  => 'clean_requirements_on_remove=True',
     match => '^clean_requirements_on_remove',
   }
 
-  file_line { 'disable_core_dumps':
-    path => '/etc/systemd/coredump.conf',
-    line => 'Storage=none',
+file_line { 'inactive_35_days_useradd':
+    path  => '/etc/default/useradd',
+    line  => 'INACTIVE=35',
+    match => '^INACTIVE',
   }
 
+  file_line { 'disable_core_dumps':
+    path  => '/etc/systemd/coredump.conf',
+    line  => 'Storage=none',
+    match => 'Storage=none',
+  }
+
+  file_line { 'disable_dump_backtrace':
+    path  => '/etc/systemd/coredump.conf',
+    line  => 'ProcessSizeMax=0',
+    match => 'ProcessSizeMax=0',
+  }
+
+  file { '/etc/pam.d/postlogin':
+        ensure => file,
+        mode   => '0644',
+        source => 'puppet:///modules/rhel8_stig/postlogin',
+  }
 
   file { '/etc/issue.net':
         ensure => file,
-        mode => '644',
+        mode   => '0644',
         source => 'puppet:///modules/rhel8_stig/issue.net',
   }
 
@@ -222,8 +286,8 @@ file_line { 'dnf_clean_old_pkgs':
   }
 
   file { '/etc/crypto-policies/back-ends/gnutls.config':
-      ensure  => file,
-      mode    => '644',
+      ensure => file,
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/gnutls.config',
   }
 
@@ -232,14 +296,14 @@ file_line { 'dnf_clean_old_pkgs':
   }
 
   file { '/etc/pam.d/common-password':
-      ensure  => file,
-      mode    => '644',
+      ensure => file,
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/common-password',
   }
 
   file { '/etc/security/faillock.conf':
-      ensure  => file,
-      mode    => '644',
+      ensure => file,
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/faillock.conf',
   }
 
@@ -249,7 +313,7 @@ file_line { 'dnf_clean_old_pkgs':
 
   file { '/etc/audit/rules.d/stig.rules':
       ensure => file,
-      mode => '644',
+      mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/stig_audit.rules',
   }
 
