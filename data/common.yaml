@@ -9,3 +9,40 @@ audit_files_755:
 
 audit_files_750:
   - "/sbin/autrace"
+
+abrt_packages:
+  - 'abrt.x86_64'
+  - 'abrt-addon-ccpp.x86_64'
+  - 'abrt-addon-coredump-helper.x86_64'
+  - 'abrt-addon-kerneloops.x86_64'
+  - 'abrt-addon-pstoreoops.x86_64'
+  - 'abrt-addon-vmcore.x86_64'
+  - 'abrt-addon-xorg.x86_64'
+  - 'abrt-cli.x86_64'
+  - 'abrt-cli-ng.x86_64'
+  - 'abrt-console-notification.x86_64'
+  - 'abrt-dbus.x86_64'
+  - 'abrt-desktop.x86_64'
+  - 'abrt-gui.x86_64'
+  - 'abrt-gui-libs.i686'
+  - 'abrt-gui-libs.x86_64'
+  - 'abrt-java-connector.x86_64'
+  - 'abrt-libs.i686'
+  - 'abrt-libs.x86_64'
+  - 'abrt-plugin-machine-id.x86_64'
+  - 'abrt-plugin-sosreport.x86_64'
+  - 'abrt-tui.x86_64'
+
+disallowed_packages:
+  - 'sendmail'
+  - 'telnet-server'
+  - 'rsh-server'
+
+mandatory_packages:
+  - 'firewalld'
+  - 'vim'
+  - 'opensc'
+  - 'openssl-pkcs11'
+  - 'policycoreutils'
+  - 'rsyslog-gnutls'
+  - 'fapolicyd'

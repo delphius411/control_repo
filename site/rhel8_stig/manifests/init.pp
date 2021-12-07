@@ -29,9 +29,10 @@ class rhel8_stig {
     multiple          => true,
   }
 
-  package { 'vim':
+  package { lookup('mandatory_packages'):
       ensure => present,
   }
+
 
   package { 'rng-tools':
       ensure => present,
@@ -46,10 +47,6 @@ class rhel8_stig {
   service { 'systemd-coredump.socket':
     ensure => stopped,
     enable => mask,
-  }
-
-  package { 'opensc':
-      ensure => present,
   }
 
   package { 'openssh-server':
@@ -79,21 +76,21 @@ file { '/etc/rsyslog.conf':
       require => Package['rsyslog'],
   }
 
-  package { 'openssl-pkcs11':
-      ensure => present,
-  }
-
-package { 'policycoreutils':
-      ensure => present,
-  }
-
   package { 'audit':
     ensure => present,
   }
 
+  package { lookup('disallowed_packages'):
+    ensure => absent,
+  }
+
+package { lookup('abrt-packages'):
+    ensure => absent,
+  }
   service { 'auditd':
-    ensure => running,
-    enable => true,
+    ensure  => running,
+    enable  => true,
+    require => Package['audit']
   }
 
 #   file { '/etc/pam_pkcs11':
@@ -283,6 +280,12 @@ file_line { 'inactive_35_days_useradd':
         source => 'puppet:///modules/rhel8_stig/issue.net',
   }
 
+  file { '/etc/chrony.conf':
+        ensure => file,
+        mode   => '0644',
+        source => 'puppet:///modules/rhel8_stig/chrony.conf',
+  }
+
 #   package {'libpam-pwquality':
 #     ensure => present,
 #     before => File['/etc/security/pwquality.conf'],
@@ -314,6 +317,13 @@ file_line { 'inactive_35_days_useradd':
     ensure => present,
   }
 
+  file { '/etc/aide.conf':
+        ensure  => file,
+        mode    => '0600',
+        source  => 'puppet:///modules/rhel8_stig/aide.conf',
+        require => Package['aide'],
+  }
+
 #   file { '/etc/audit/rules.d/stig.rules':
 #       ensure => file,
 #       mode   => '0644',
@@ -334,4 +344,9 @@ file_line { 'inactive_35_days_useradd':
       group  => 'root',
     }
 
+  file { '/etc/modprobe.d/stig_blacklist.conf':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/stig_blacklist.conf',
+  }
 }
