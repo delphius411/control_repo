@@ -319,7 +319,7 @@ class rhel8_stig {
 
   file { lookup('audit_files_755', Array):
     ensure => file,
-    mode   => '0757',
+    mode   => '0755',
     owner  => 'root',
     group  => 'root',
   }
