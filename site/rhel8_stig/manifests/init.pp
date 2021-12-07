@@ -317,4 +317,10 @@ file_line { 'inactive_35_days_useradd':
       source => 'puppet:///modules/rhel8_stig/stig_audit.rules',
   }
 
+  file { $audit_files_755:
+    ensure => file,
+    mode   => '0755',
+    owner  => 'root',
+    group  => 'root',
+  }
 }
