@@ -1,5 +1,5 @@
 ---
- rhel8_stig::audit_files_755:
+ audit_files_755:
     - "/sbin/auditctl"
     - "/sbin/aureport"
     - "/sbin/ausearch"
@@ -7,5 +7,5 @@
     - "/sbin/rsyslogd"
     - "/sbin/augenrules"
 
-  rhel8_stig::audit_files_750:
+  audit_files_750:
     - "/sbin/autrace"
