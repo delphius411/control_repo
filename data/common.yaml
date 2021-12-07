@@ -1,11 +1,11 @@
 ---
- audit_files_755:
-    - "/sbin/auditctl"
-    - "/sbin/aureport"
-    - "/sbin/ausearch"
-    - "/sbin/auditd"
-    - "/sbin/rsyslogd"
-    - "/sbin/augenrules"
+audit_files_755:
+  - "/sbin/auditctl"
+  - "/sbin/aureport"
+  - "/sbin/ausearch"
+  - "/sbin/auditd"
+  - "/sbin/rsyslogd"
+  - "/sbin/augenrules"
 
-  audit_files_750:
-    - "/sbin/autrace"
+audit_files_750:
+  - "/sbin/autrace"
