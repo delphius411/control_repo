@@ -1,7 +1,7 @@
 class rhel8_stig {
 #   # run exec only if command in onlyif returns 0.
   exec { 'verify_fips_mode':
-    command => 'fips-mode-setup --enable',
+    command => '/bin/fips-mode-setup --enable',
     onlyif  => '/bin/grep 0 /proc/sys/crypto/fips_enabled',
   }
 
