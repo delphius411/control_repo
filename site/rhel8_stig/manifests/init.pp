@@ -317,7 +317,7 @@ class rhel8_stig {
 #       source => 'puppet:///modules/rhel8_stig/stig_audit.rules',
 #   }
 
-  file { $audit_files_755:
+  file { lookup('audit_files_755', Array):
     ensure => file,
     mode   => '0757',
     owner  => 'root',
