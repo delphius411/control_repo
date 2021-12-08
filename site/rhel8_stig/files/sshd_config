@@ -24,7 +24,7 @@ HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Ciphers and keying
-#RekeyLimit default none
+RekeyLimit 1G 1h
 
 # This system is following system-wide crypto policy. The changes to
 # crypto properties (Ciphers, MACs, ...) will not have any effect here.
