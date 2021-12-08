@@ -226,10 +226,6 @@ file { '/var/log/audit/audit.log':
     match => '^TLS.MinProtocol',
   }
 
-  file_line { 'profile_timeout':
-    path => '/etc/bash.bashrc',
-    line => 'TMOUT=600',
-  }
 
 #   file_line { 'sssd_ocsp_dgst':
 #     path  => '/etc/sssd/sssd.conf',
@@ -276,7 +272,13 @@ file_line { 'inactive_35_days_useradd':
   file_line { 'firewalld_backend':
     path  => '/etc/firewalld/firewalld.conf',
     line  => 'FirewallBackend=nftables',
-    match => 'FirewallBackend=',
+    match => '^FirewallBackend=',
+  }
+
+  file_line { 'systemd_ctrl-alt-del_burst':
+    path  => '/etc/systemd/system.conf',
+    line  => 'CtrlAltDelBurstAction=none',
+    match => '^FirewallBackend=',
   }
 
 
