@@ -49,6 +49,11 @@ class rhel8_stig {
     enable => mask,
   }
 
+  service { 'ctrl-alt-del.target':
+    ensure => stopped,
+    enable => mask,
+  }
+
   package { 'openssh-server':
     ensure => present,
   }
@@ -268,6 +273,13 @@ file_line { 'inactive_35_days_useradd':
     match => 'ProcessSizeMax=',
   }
 
+  file_line { 'firewalld_backend':
+    path  => '/etc/firewalld/firewalld.conf',
+    line  => 'FirewallBackend=nftables',
+    match => 'FirewallBackend=',
+  }
+
+
   file { '/etc/pam.d/postlogin':
         ensure => file,
         mode   => '0644',
@@ -349,4 +361,8 @@ file_line { 'inactive_35_days_useradd':
       mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/stig_blacklist.conf',
   }
+
+
+
+
 }
