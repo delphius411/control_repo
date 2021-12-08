@@ -140,20 +140,18 @@ package { lookup('abrt_packages'):
     ensure => absent,
   }
 
+  file { '/etc/pam_pkcs11':
+      ensure  => directory,
+      mode    => '0755',
+      require => Package['openssl-pkcs11'],
+  }
 
-#   file { '/etc/pam_pkcs11':
-#       ensure  => directory,
-#       mode    => '0755',
-#       require => 'Package[openssl-pkcs11'],
-#   }
-
-#   file { '/etc/pam_pkcs11/pam_pkcs11.conf':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/login.defs',
-#       require => 'Package[openssl-pkcs11'],
-
-#   }
+  file { '/etc/pam_pkcs11/pam_pkcs11.conf':
+      ensure  => file,
+      mode    => '0644',
+      source  => 'puppet:///modules/rhel8_stig/login.defs',
+      require => Package['openssl-pkcs11'],
+  }
 
   file { '/etc/ssh/sshd_config':
       ensure => file,
@@ -276,11 +274,11 @@ file { '/var/log/audit/audit.log':
   }
 
 
-#   file_line { 'sssd_ocsp_dgst':
-#     path  => '/etc/sssd/sssd.conf',
-#     line  => 'certificate_verification = ocsp_dgst=sha1',
-#     match => '^certificate_verification',
-#   }
+  file_line { 'sssd_ocsp_dgst':
+    path  => '/etc/sssd/sssd.conf',
+    line  => 'certificate_verification = ocsp_dgst=sha1',
+    match => '^certificate_verification',
+  }
 
   file_line { 'ssh_strong_rng':
     path  => '/etc/sysconfig/sshd',
@@ -343,32 +341,32 @@ file_line { 'inactive_35_days_useradd':
         source => 'puppet:///modules/rhel8_stig/chrony.conf',
   }
 
-#   package {'libpam-pwquality':
-#     ensure => present,
-#     before => File['/etc/security/pwquality.conf'],
-#   }
+  package {'libpam-pwquality':
+    ensure => present,
+    before => File['/etc/security/pwquality.conf'],
+  }
 
-#   file { '/etc/crypto-policies/back-ends/gnutls.config':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/gnutls.config',
-#   }
+  file { '/etc/crypto-policies/back-ends/gnutls.config':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/gnutls.config',
+  }
 
-#   package {'opensc-pkcs11':
-#     ensure => present,
-#   }
+  package {'opensc-pkcs11':
+    ensure => present,
+  }
 
-#   file { '/etc/pam.d/common-password':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/common-password',
-#   }
+  file { '/etc/pam.d/common-password':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/common-password',
+  }
 
-#   file { '/etc/security/faillock.conf':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/faillock.conf',
-#   }
+  file { '/etc/security/faillock.conf':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/faillock.conf',
+  }
 
   package {'aide':
     ensure => present,
@@ -381,11 +379,11 @@ file_line { 'inactive_35_days_useradd':
         require => Package['aide'],
   }
 
-#   file { '/etc/audit/rules.d/stig.rules':
-#       ensure => file,
-#       mode   => '0644',
-#       source => 'puppet:///modules/rhel8_stig/stig_audit.rules',
-#   }
+  file { '/etc/audit/rules.d/stig.rules':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/stig_audit.rules',
+  }
 
   file { lookup('audit_files_755', Array):
     ensure => file,
