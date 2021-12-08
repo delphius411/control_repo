@@ -54,6 +54,11 @@ class rhel8_stig {
     enable => mask,
   }
 
+  service { 'debug-shell.service':
+    ensure => stopped,
+    enable => mask,
+  }
+
   package { 'openssh-server':
     ensure => present,
   }
@@ -85,6 +90,48 @@ file { '/etc/rsyslog.conf':
     ensure => present,
   }
 
+service { 'auditd.service':
+    ensure  => running,
+    enable  => true,
+    require => Package['audit']
+  }
+
+  package { 'firewalld':
+    ensure => present;
+  }
+
+  file_line { 'firewalld_backend':
+    path  => '/etc/firewalld/firewalld.conf',
+    line  => 'FirewallBackend=nftables',
+    match => '^FirewallBackend=',
+  }
+
+  service { 'firewalld.service':
+    ensure  => running,
+    enable  => true,
+    require => Package['firewalld']
+  }
+
+  package { 'fapolicyd':
+    ensure => present;
+  }
+
+  service { 'fapolicyd.service':
+    ensure  => running,
+    enable  => true,
+    require => Package['fapolicyd'],
+  }
+
+package { 'usbguard':
+    ensure => present;
+  }
+
+  service { 'usbguard.service':
+    ensure  => running,
+    enable  => true,
+    require => Package['usbguard'],
+  }
+
   package { lookup('disallowed_packages'):
     ensure => absent,
   }
@@ -92,11 +139,7 @@ file { '/etc/rsyslog.conf':
 package { lookup('abrt_packages'):
     ensure => absent,
   }
-  service { 'auditd':
-    ensure  => running,
-    enable  => true,
-    require => Package['audit']
-  }
+
 
 #   file { '/etc/pam_pkcs11':
 #       ensure  => directory,
@@ -208,6 +251,12 @@ file { '/var/log/audit/audit.log':
     match => '^ExecStart=',
   }
 
+  file_line { 'secure_emergency_mode':
+    path  => '/usr/lib/systemd/system/emergency.service',
+    line  => 'ExecStart=-/usr/lib/systemd/systemd-sulogin-shell emergency',
+    match => '^ExecStart=',
+  }
+
   file_line { 'selinux_mode':
     path  => '/etc/selinux/config',
     line  => 'SELINUX=enforcing',
@@ -267,12 +316,6 @@ file_line { 'inactive_35_days_useradd':
     path  => '/etc/systemd/coredump.conf',
     line  => 'ProcessSizeMax=0',
     match => 'ProcessSizeMax=',
-  }
-
-  file_line { 'firewalld_backend':
-    path  => '/etc/firewalld/firewalld.conf',
-    line  => 'FirewallBackend=nftables',
-    match => '^FirewallBackend=',
   }
 
   file_line { 'systemd_ctrl-alt-del_burst':
