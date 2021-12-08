@@ -231,6 +231,10 @@ file { '/var/log/audit/audit.log':
       source => 'puppet:///modules/rhel8_stig/faillock.conf',
   }
 
+  kernel_parameter { 'page_posion':
+    ensure => present,
+    value  => '1',
+  }
 
 #   #grub_user { 'root':
 #   #  password    => 'Temp1234!',
