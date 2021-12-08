@@ -347,9 +347,6 @@ file_line { 'inactive_35_days_useradd':
       source => 'puppet:///modules/rhel8_stig/gnutls.config',
   }
 
-  package {'openssl-pkcs11':
-    ensure => present,
-  }
 
   file { '/etc/pam.d/common-password':
       ensure => file,
