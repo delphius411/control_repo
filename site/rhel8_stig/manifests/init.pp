@@ -362,12 +362,6 @@ file_line { 'inactive_35_days_useradd':
       source => 'puppet:///modules/rhel8_stig/common-password',
   }
 
-  file { '/etc/security/faillock.conf':
-      ensure => file,
-      mode   => '0644',
-      source => 'puppet:///modules/rhel8_stig/faillock.conf',
-  }
-
   package {'aide':
     ensure => present,
   }
