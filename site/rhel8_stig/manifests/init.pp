@@ -341,10 +341,10 @@ file_line { 'inactive_35_days_useradd':
         source => 'puppet:///modules/rhel8_stig/chrony.conf',
   }
 
-  package {'libpam-pwquality':
-    ensure => present,
-    before => File['/etc/security/pwquality.conf'],
-  }
+  # package {'libpam-pwquality':
+  #   ensure => present,
+  #   before => File['/etc/security/pwquality.conf'],
+  # }
 
   file { '/etc/crypto-policies/back-ends/gnutls.config':
       ensure => file,
