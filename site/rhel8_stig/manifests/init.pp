@@ -347,13 +347,6 @@ file_line { 'inactive_35_days_useradd':
       source => 'puppet:///modules/rhel8_stig/gnutls.config',
   }
 
-
-  file { '/etc/pam.d/common-password':
-      ensure => file,
-      mode   => '0644',
-      source => 'puppet:///modules/rhel8_stig/common-password',
-  }
-
   package {'aide':
     ensure => present,
   }
