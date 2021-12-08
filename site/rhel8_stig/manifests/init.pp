@@ -274,11 +274,11 @@ file { '/var/log/audit/audit.log':
   }
 
 
-  file_line { 'sssd_ocsp_dgst':
-    path  => '/etc/sssd/sssd.conf',
-    line  => 'certificate_verification = ocsp_dgst=sha1',
-    match => '^certificate_verification',
-  }
+  # file_line { 'sssd_ocsp_dgst':
+  #   path  => '/etc/sssd/sssd.conf',
+  #   line  => 'certificate_verification = ocsp_dgst=sha1',
+  #   match => '^certificate_verification',
+  # }
 
   file_line { 'ssh_strong_rng':
     path  => '/etc/sysconfig/sshd',
@@ -341,18 +341,13 @@ file_line { 'inactive_35_days_useradd':
         source => 'puppet:///modules/rhel8_stig/chrony.conf',
   }
 
-  # package {'libpam-pwquality':
-  #   ensure => present,
-  #   before => File['/etc/security/pwquality.conf'],
-  # }
-
   file { '/etc/crypto-policies/back-ends/gnutls.config':
       ensure => file,
       mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/gnutls.config',
   }
 
-  package {'opensc-pkcs11':
+  package {'openssl-pkcs11':
     ensure => present,
   }
 
