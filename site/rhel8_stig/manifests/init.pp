@@ -89,7 +89,7 @@ file { '/etc/rsyslog.conf':
     ensure => absent,
   }
 
-package { lookup('abrt-packages'):
+package { lookup('abrt_packages'):
     ensure => absent,
   }
   service { 'auditd':
