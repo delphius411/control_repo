@@ -244,7 +244,7 @@ file { '/etc/ssh/ssh_host_ed25519_key':
       mode   => '0644',
       owner  => 'root',
       group  => 'root',
-      source => 'puppet:///modules/rhel8_stig/l99-sysctl.conf',
+      source => 'puppet:///modules/rhel8_stig/99-sysctl.conf',
   }
 
   file { '/etc/security/faillock.conf':
