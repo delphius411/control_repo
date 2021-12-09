@@ -9,6 +9,10 @@ node 'client2.lab.net' {
   include role::rhel8_secure_server
 }
 
+node 'client3.lab.net' {
+  include role::rhel8_secure_server
+}
+
 node 'netsvcs.lab.net' {
 
   file {'/root/README':
