@@ -159,12 +159,6 @@ package { lookup('abrt_packages'):
       source => 'puppet:///modules/rhel8_stig/sshd_config',
   }
 
-  file { '/etc/pam.d/password-auth':
-      ensure => file,
-      mode   => '0644',
-      source => 'puppet:///modules/rhel8_stig/password-auth',
-  }
-
   file { '/etc/issue':
       ensure => file,
       mode   => '0644',
