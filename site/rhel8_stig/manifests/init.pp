@@ -222,21 +222,21 @@ file { '/var/log/audit/audit.log':
   }
 
 file { '/etc/ssh/ssh_host_ed25519_key':
-    ensure => directory,
+    ensure => file,
     mode   => '0600',
     owner  => 'root',
     group  => 'root',
   }
 
   file { '/etc/ssh/ssh_host_ecdsa_key':
-    ensure => directory,
+    ensure => file,
     mode   => '0600',
     owner  => 'root',
     group  => 'root',
   }
 
   file { '/etc/ssh/ssh_host_rsa_key':
-    ensure => directory,
+    ensure => file,
     mode   => '0600',
     owner  => 'root',
     group  => 'root',
