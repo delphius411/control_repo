@@ -444,7 +444,7 @@ file_line { 'inactive_35_days_useradd':
 
   file { '/etc/audit/rules.d/stig.rules':
       ensure => file,
-      mode   => '0644',
+      mode   => '0640',
       source => 'puppet:///modules/rhel8_stig/stig_audit.rules',
   }
 
@@ -468,7 +468,9 @@ file_line { 'inactive_35_days_useradd':
       source => 'puppet:///modules/rhel8_stig/stig_blacklist.conf',
   }
 
-
+  mount { '/var/tmp':
+    options => 'noexec,nosuid,nodev',
+  }
 
 
 }
