@@ -430,13 +430,7 @@ file_line { 'inactive_35_days_useradd':
       mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/password-auth',
   }
-file { '/etc/sysctl.d/99-sysctl.conf':
-      ensure => file,
-      mode   => '0644',
-      owner  => 'root',
-      group  => 'root',
-      source => 'puppet:///modules/rhel8_stig/99-sysctl.conf',
-  }
+
   package {'aide':
     ensure => present,
   }
