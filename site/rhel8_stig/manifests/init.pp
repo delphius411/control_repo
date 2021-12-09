@@ -330,7 +330,7 @@ file { '/etc/ssh/ssh_host_ed25519_key':
     match => '^TLS.MinProtocol',
   }
 
-file_line { 'tls_min_level':
+file_line { 'min_level':
     path => '//etc/crypto-policies/back-ends/opensslcnf.config',
     line => 'MinProtocol = TLSv1.2',
   }
