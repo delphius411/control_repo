@@ -236,6 +236,31 @@ file { '/var/log/audit/audit.log':
     value  => '1',
   }
 
+  kernel_parameter { 'vsyscall':
+    ensure => present,
+    value  => 'none',
+  }
+
+  kernel_parameter { 'slub_debug':
+    ensure => present,
+    value  => 'P',
+  }
+
+  kernel_parameter { 'audit':
+    ensure => present,
+    value  => '1',
+  }
+
+  kernel_parameter { 'audit_backlog_limit':
+    ensure => present,
+    value  => '8192',
+  }
+
+  kernel_parameter { 'pti':
+    ensure => present,
+    value  => 'on',
+  }
+
 #   #grub_user { 'root':
 #   #  password    => 'Temp1234!',
 #   #  superuser   => true,
