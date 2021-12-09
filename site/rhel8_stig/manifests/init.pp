@@ -486,8 +486,9 @@ file_line { 'inactive_35_days_useradd':
 
   mount { '/dev/shm':
     ensure  => present,
-    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+    device  => '/dev/shm',
     fstype  => 'tmpfs',
+    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
 }
