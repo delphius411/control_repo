@@ -469,7 +469,7 @@ file_line { 'inactive_35_days_useradd':
   }
 
   mount { '/var/tmp':
-    options => 'noexec,nosuid,nodev',
+    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
 
