@@ -218,11 +218,39 @@ file { '/var/log/audit/audit.log':
     group  => 'root',
   }
 
+file { '/etc/ssh/ssh_host_ed25519_key':
+    ensure => directory,
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+  }
+
+  file { '/etc/ssh/ssh_host_ecdsa_key':
+    ensure => directory,
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+  }
+
+  file { '/etc/ssh/ssh_host_rsa_key':
+    ensure => directory,
+    mode   => '0600',
+    owner  => 'root',
+    group  => 'root',
+  }
 
   file { '/etc/security/limits.conf':
       ensure => file,
       mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/limits.conf',
+  }
+
+  file { '/etc/sysctl.d/99-sysctl.conf':
+      ensure => file,
+      mode   => '0644',
+      owner  => 'root',
+      group  => 'root',
+      source => 'puppet:///modules/rhel8_stig/l99-sysctl.conf',
   }
 
   file { '/etc/security/faillock.conf':
@@ -302,6 +330,10 @@ file { '/var/log/audit/audit.log':
     match => '^TLS.MinProtocol',
   }
 
+file_line { 'tls_min_level':
+    path => '//etc/crypto-policies/back-ends/opensslcnf.config',
+    line => 'MinProtocol = TLSv1.2',
+  }
 
   # file_line { 'sssd_ocsp_dgst':
   #   path  => '/etc/sssd/sssd.conf',
@@ -374,6 +406,18 @@ file_line { 'inactive_35_days_useradd':
       ensure => file,
       mode   => '0644',
       source => 'puppet:///modules/rhel8_stig/gnutls.config',
+  }
+
+  file { '/etc/pam.d/system-auth':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/system-auth',
+  }
+
+  file { '/etc/pam.d/password-auth':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/password-auth',
   }
 
   package {'aide':
