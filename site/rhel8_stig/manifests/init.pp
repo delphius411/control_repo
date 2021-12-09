@@ -472,5 +472,22 @@ file_line { 'inactive_35_days_useradd':
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
+  mount { '/var/log/audit':
+    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+  }
+
+  mount { '/var/log':
+      options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+  }
+
+  mount { '/tmp':
+    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+  }
+
+  mount { '/dev/shm':
+    ensure  => present,
+    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+    fstype  => 'tmpfs',
+  }
 
 }
