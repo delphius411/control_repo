@@ -287,6 +287,13 @@ file { '/etc/ssh/ssh_host_ed25519_key':
       source => 'puppet:///modules/rhel8_stig/faillock.conf',
   }
 
+  file { 'var/log/faillock':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0750',
+  }
+
   kernel_parameter { 'page_posion':
     ensure => present,
     value  => '1',
@@ -411,7 +418,7 @@ file_line { 'inactive_35_days_useradd':
     match => '^FirewallBackend=',
   }
 
-file_line { 'remove_users_passwd':
+  file_line { 'remove_users_passwd':
     ensure            => absent,
     path              => '/etc/passwd',
     match             => '^ftp*',
