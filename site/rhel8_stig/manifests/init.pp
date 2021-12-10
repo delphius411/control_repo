@@ -522,14 +522,16 @@ file_line { 'inactive_35_days_useradd':
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
-  file_line { 'grub_user':
-    path  => '/boot/grub2/grub.cfg',
-    line  => 'set superusers="grubadmin"',
-    match => '^.*set superusers=',
+  file { '/etc/grub.d/01_users':
+    ensure => file,
+    mode   => '0640',
+    owner  => 'root',
+    group  => 'root',
+    source => 'puppet:///modules/rhel8_stig/grub_01_users',
   }
 
   exec { 'verify_grub_user':
     command   => '/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg',
-    subscribe => File_line['grub_user'],
+    subscribe => File['/etc/grub.d/01_users'],
   }
 }
