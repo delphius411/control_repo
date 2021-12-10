@@ -5,7 +5,7 @@
 ## compliance score for the OS, to have a "secure" baseline upon which
 ## to build applications.
 class rhel8_stig {
-#   # run exec only if command in onlyif returns 0.
+# run exec only if command in onlyif returns 0.
   exec { 'verify_fips_mode':
     command => '/bin/fips-mode-setup --enable',
     onlyif  => '/bin/grep 0 /proc/sys/crypto/fips_enabled',
@@ -14,7 +14,6 @@ class rhel8_stig {
   package { 'vlock':
       ensure => present,
   }
-
 
   package { 'tmux':
       ensure => present,
