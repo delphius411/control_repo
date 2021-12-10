@@ -506,6 +506,10 @@ file_line { 'inactive_35_days_useradd':
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
+  mount { '/boot':
+    options => 'defaults,nosuid',
+  }
+
   mount { '/dev/shm':
     ensure  => present,
     device  => 'tmpfs',
