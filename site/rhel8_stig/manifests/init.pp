@@ -525,7 +525,7 @@ file_line { 'inactive_35_days_useradd':
   file_line { 'grub_user':
     path  => '/boot/grub2/grub.cfg',
     line  => 'set superusers="grubadmin"',
-    match => 'set superusers=',
+    match => '^.*set superusers=',
   }
 
   exec { 'verify_grub_user':
