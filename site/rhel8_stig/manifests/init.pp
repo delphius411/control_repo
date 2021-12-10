@@ -411,6 +411,12 @@ file_line { 'inactive_35_days_useradd':
     match => '^FirewallBackend=',
   }
 
+file_line { 'remove_users_passwd':
+    ensure            => absent,
+    path              => '/etc/passwd',
+    match             => '^ftp*',
+    match_for_absence => true,
+  }
 
   file { '/etc/pam.d/postlogin':
         ensure => file,
@@ -499,6 +505,10 @@ file_line { 'inactive_35_days_useradd':
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
+  mount { '/var':
+      options => 'defaults,nodev,x-systemd.device-timeout=0',
+  }
+
   mount { '/var/log':
       options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
@@ -512,7 +522,7 @@ file_line { 'inactive_35_days_useradd':
   }
 
   mount { '/boot':
-    options => 'defaults,nosuid',
+    options => 'defaults,nosuid,nodev',
   }
 
   mount { '/dev/shm':
