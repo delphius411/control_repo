@@ -529,7 +529,7 @@ file_line { 'inactive_35_days_useradd':
   }
 
   exec { 'verify_grub_user':
-    command   => 'grub2-mkconfig -o /boot/grub2/grub.cfg',
+    command   => '/sbin/grub2-mkconfig -o /boot/grub2/grub.cfg',
     subscribe => File_line['grub_user'],
   }
 }
