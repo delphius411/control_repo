@@ -177,6 +177,12 @@ package { lookup('abrt_packages'):
       source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
   }
 
+  file { '/etc/crypto-policies/back-ends/opensshserver.txt':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
+  }
+
   file { '/var/log/messages':
     ensure => file,
     mode   => '0640',
@@ -431,6 +437,12 @@ file_line { 'inactive_35_days_useradd':
       source => 'puppet:///modules/rhel8_stig/password-auth',
   }
 
+  file { '/etc/sssd/conf.d/99-stig-sssd.conf':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/99-stig-sssd.conf',
+  }
+
   package {'aide':
     ensure => present,
   }
@@ -490,5 +502,4 @@ file_line { 'inactive_35_days_useradd':
     fstype  => 'tmpfs',
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
-
 }
