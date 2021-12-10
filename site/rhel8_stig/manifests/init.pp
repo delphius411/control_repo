@@ -524,7 +524,7 @@ file_line { 'inactive_35_days_useradd':
 
   file { '/etc/grub.d/01_users':
     ensure => file,
-    mode   => '0640',
+    mode   => '0755',
     owner  => 'root',
     group  => 'root',
     source => 'puppet:///modules/rhel8_stig/grub_01_users',
