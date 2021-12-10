@@ -183,6 +183,12 @@ package { lookup('abrt_packages'):
       source => 'puppet:///modules/rhel8_stig/crypto_opensshserver.config',
   }
 
+  file { '/etc/bashrc':
+      ensure => file,
+      mode   => '0644',
+      source => 'puppet:///modules/rhel8_stig/bashrc',
+  }
+
   file { '/var/log/messages':
     ensure => file,
     mode   => '0640',
@@ -493,6 +499,10 @@ file_line { 'inactive_35_days_useradd':
   }
 
   mount { '/tmp':
+    options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+  }
+
+  mount { '/home':
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
   }
 
