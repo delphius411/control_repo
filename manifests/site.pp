@@ -14,7 +14,7 @@ node 'client3.lab.net' {
 }
 
 node 'netsvcs.lab.net' {
-
+  include role::puppet_master
   file {'/root/README':
     ensure  => file,
     content => "Welcome to ${fqdn}",
