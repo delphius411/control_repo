@@ -1,3 +1,9 @@
+## This class implements STIG controls for a RHEL 8 Server.
+## This implementation assumes that you are working with a minimimal
+## install of RHEL8 and does not account for any applications / use 
+## cases for the OS.  It's simply designed to have the highest possible
+## compliance score for the OS, to have a "secure" baseline upon which
+## to build applications.
 class rhel8_stig {
 #   # run exec only if command in onlyif returns 0.
   exec { 'verify_fips_mode':
@@ -515,5 +521,16 @@ file_line { 'inactive_35_days_useradd':
     device  => 'tmpfs',
     fstype  => 'tmpfs',
     options => 'defaults,noexec,nosuid,nodev,x-systemd.device-timeout=0',
+  }
+
+  file_line { 'grub_user':
+    path  => '/boot/grub2/grub.cfg',
+    line  => 'set superusers="grubadmin"',
+    match => 'set superusers=',
+  }
+
+  exec { 'verify_grub_user':
+    command  => 'grub2-mkconfig -o /boot/grub2/grub.cfg',
+    register => File_line['grub_user'],
   }
 }
