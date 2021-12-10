@@ -483,7 +483,7 @@ file_line { 'inactive_35_days_useradd':
       mode   => '0755',
       owner  => 'root',
       group  => 'root',
-    }
+  }
 
   file { '/etc/modprobe.d/stig_blacklist.conf':
       ensure => file,
